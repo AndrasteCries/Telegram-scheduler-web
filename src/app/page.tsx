@@ -1,21 +1,16 @@
-import type { Post } from "@/types/post";
-import { PostForm } from "@/app/PostForm";
-import { PostItem } from "@/app/PostItem";
+import { CalendarGrid } from "@/components/CalendarGrid";
 
 export default async function TestPage() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts`, {
-    cache: "no-store",
-  });
+  //todo cache using with tags 
+  // const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts`, {
+  //   cache: "no-store",
+  // });
 
-  const posts: Post[] = await res.json();
+  // const posts: Post[] = await res.json();
 
   return (
-    <div className="space-y-6">
-      <PostForm />
-
-      {posts.map((p) => (
-        <PostItem key={p.id} post={p} />
-      ))}
+    <div>
+      <CalendarGrid key="calendar-grid"></CalendarGrid>
     </div>
   );
 }
