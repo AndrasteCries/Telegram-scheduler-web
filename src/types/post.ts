@@ -1,3 +1,5 @@
+import { AttachedFile } from "./attached-file";
+
 export type Post = {
   id: number;
   chatId: number;
@@ -5,4 +7,5 @@ export type Post = {
   scheduledAtUtc: string;
   hangfireJobId: string | null;
   isSent: boolean;
+  files: AttachedFile[] | null;
 };

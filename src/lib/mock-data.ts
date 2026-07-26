@@ -16,109 +16,128 @@ export const mockSlotTemplates: SlotTemplate[] = [
   },
 ];
 
+const mockFiles = Array.from({ length: 6 }, (_, i) => ({
+  id: String(i + 1),
+  file: null as unknown as File,
+  previewUrl: `/images/${i + 1}.jpg`,
+}));
+
 export const mockPosts: Post[] = [
   {
     id: 1,
     chatId: 429976711,
     text: "Good morning! Here's today's first update.",
-    scheduledAtUtc: "2026-07-23T06:00:00Z", // 09:00 local
+    scheduledAtUtc: "2026-07-23T06:00:00Z",
     hangfireJobId: null,
     isSent: false,
+    files: [mockFiles[0], mockFiles[1]],
   },
   {
     id: 67,
     chatId: 429976711,
     text: "second Good morning! Here's today's first update.",
-    scheduledAtUtc: "2026-07-23T06:00:00Z", // 09:00 local
+    scheduledAtUtc: "2026-07-23T06:00:00Z",
     hangfireJobId: null,
     isSent: false,
+    files: [mockFiles[2]],
   },
   {
     id: 20,
     chatId: 429976711,
     text: "Good morning! Here's today's first update.",
-    scheduledAtUtc: "2026-07-23T17:00:00Z", // 20:00 local
+    scheduledAtUtc: "2026-07-23T17:00:00Z",
     hangfireJobId: null,
     isSent: false,
+    files: [mockFiles[1], mockFiles[2], mockFiles[3], mockFiles[4], mockFiles[5], mockFiles[0]],
   },
-  {
-    id: 22,
-    chatId: 429976711,
-    text: "eqwewqewqewqewqewqewqe morning! Here's today's first update.",
-    scheduledAtUtc: "2026-07-23T19:00:00Z", // 20:00 local
-    hangfireJobId: null,
-    isSent: false,
-  },
+  // {
+  //   id: 22,
+  //   chatId: 429976711,
+  //   text: "eqwewqewqewqewqewqewqe morning! Here's today's first update.",
+  //   scheduledAtUtc: "2026-07-23T19:00:00Z",
+  //   hangfireJobId: null,
+  //   isSent: false,
+  //   files: [],
+  // },
   {
     id: 2,
     chatId: 429976711,
     text: "Evening news roundup is now available.",
-    scheduledAtUtc: "2026-07-25T17:00:00Z", // 20:00 local
+    scheduledAtUtc: "2026-07-25T17:00:00Z",
     hangfireJobId: null,
     isSent: false,
+    files: [mockFiles[0]],
   },
   {
     id: 3,
     chatId: 429976711,
     text: "Don't forget to join today's livestream.",
-    scheduledAtUtc: "2026-07-27T06:00:00Z", // 09:00 local
+    scheduledAtUtc: "2026-07-27T06:00:00Z",
     hangfireJobId: null,
     isSent: false,
+    files: [mockFiles[1], mockFiles[2]],
   },
   {
     id: 4,
     chatId: 429976711,
     text: "Unexpected maintenance announcement.",
-    scheduledAtUtc: "2026-07-29T17:00:00Z", // 20:00 local
+    scheduledAtUtc: "2026-07-29T17:00:00Z",
     hangfireJobId: null,
     isSent: false,
+    files: [mockFiles[3]],
   },
   {
     id: 5,
     chatId: 429976711,
     text: "Special event starts in one hour!",
-    scheduledAtUtc: "2026-07-31T06:00:00Z", // 09:00 local
+    scheduledAtUtc: "2026-07-31T06:00:00Z",
     hangfireJobId: null,
     isSent: false,
+    files: [mockFiles[4]],
   },
   {
     id: 6,
     chatId: 429976711,
     text: "Weekly digest is ready to read.",
-    scheduledAtUtc: "2026-08-02T17:00:00Z", // 20:00 local
+    scheduledAtUtc: "2026-08-02T17:00:00Z",
     hangfireJobId: null,
     isSent: false,
+    files: [mockFiles[5]],
   },
   {
     id: 7,
     chatId: 429976711,
     text: "New feature has just been released.",
-    scheduledAtUtc: "2026-08-04T06:00:00Z", // 09:00 local
+    scheduledAtUtc: "2026-08-04T06:00:00Z",
     hangfireJobId: null,
     isSent: false,
+    files: [mockFiles[0], mockFiles[2], mockFiles[4]],
   },
   {
     id: 8,
     chatId: 429976711,
     text: "Reminder: check out the latest article.",
-    scheduledAtUtc: "2026-08-06T17:00:00Z", // 20:00 local
+    scheduledAtUtc: "2026-08-06T17:00:00Z",
     hangfireJobId: null,
     isSent: false,
+    files: [],
   },
   {
     id: 9,
     chatId: 429976711,
     text: "Community Q&A starts in 30 minutes.",
-    scheduledAtUtc: "2026-08-09T06:00:00Z", // 09:00 local
+    scheduledAtUtc: "2026-08-09T06:00:00Z",
     hangfireJobId: null,
     isSent: false,
+    files: [mockFiles[1], mockFiles[5]],
   },
   {
     id: 10,
     chatId: 429976711,
     text: "Thank you for staying with us! More updates coming soon.",
-    scheduledAtUtc: "2026-08-12T17:00:00Z", // 20:00 local
+    scheduledAtUtc: "2026-08-12T17:00:00Z",
     hangfireJobId: null,
     isSent: false,
+    files: [mockFiles[0], mockFiles[1], mockFiles[2], mockFiles[3]],
   },
 ];
