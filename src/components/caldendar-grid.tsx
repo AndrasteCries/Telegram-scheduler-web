@@ -1,22 +1,24 @@
 "use client";
 
-import { getTwoWeeksFromMonday } from "@/lib/calendar-utils";
+import { getTwoWeeksFromMonday, groupPosts, getDayKey } from "@/lib/calendar-utils";
 import * as CalendarConstants from "@/constants/calendar";
-import { getMockPosts } from "@/lib/calendar-utils";
-import { getDayKey } from "@/lib/calendar-utils";
-import { DayCard } from "./DayCard";
+import { DayCard } from "./day-card";
 import { Post } from "@/types/post";
 import { CardHeader } from "@/components/ui/card";
+import { useDashboard } from "@/hooks/use-dashboard";
 
 export function CalendarGrid() {
+  const { posts } = useDashboard();
   const calendarDays = CalendarConstants.WEEKDAY_LABELS;
   const days = getTwoWeeksFromMonday();
-  const calendarPosts = getMockPosts();
+  const calendarPosts = groupPosts(posts);
 
   return (
     <div className="grid grid-cols-7 gap-2 p-2 pt-5">
       {calendarDays.map((day) => (
-        <CardHeader className="ml-3" key={day.toString()}> {day}</CardHeader>
+        <CardHeader className="ml-3" key={day.toString()}>
+          {day}
+        </CardHeader>
       ))}
       {days.map((day) => {
         const dayKey = getDayKey(day);

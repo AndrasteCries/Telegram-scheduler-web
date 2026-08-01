@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "./ui/button";
 import {
   Empty,
@@ -31,11 +30,9 @@ export function AttachmentPanel({
   onFilesAdded: (files: File[]) => Promise<void>;
   onRemove: (id: string) => void;
 }) {
-  const images = files.filter(({ file }) => file.type.startsWith("image/"));
+  const images = files.filter((f) => f.mimeType.startsWith("image/"));
 
-  const otherFiles = files.filter(
-    ({ file }) => !file.type.startsWith("image/"),
-  );
+  const otherFiles = files.filter((f) => !f.mimeType.startsWith("image/"));
 
   const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -79,51 +76,26 @@ export function AttachmentPanel({
                 Upload Files
               </Button>
             </EmptyContent>
-            {/* {images.length > 0 && (
-              <div className="grid grid-cols-3 gap-2">
-                {images.map(({ id, file, previewUrl }) => {
-                  return (
-                    <Attachment
-                      key={previewUrl}
-                      orientation="vertical"
-                      size="sm"
-                    >
-                      <AttachmentMedia variant="image">
-                        <img src={previewUrl} alt={file.name} />
-                      </AttachmentMedia>
-                      <AttachmentActions>
-                        <AttachmentAction
-                          aria-label={`Delete ${file.name}`}
-                          onClick={() => onRemove(id)}
-                        >
-                          <XIcon />
-                        </AttachmentAction>
-                      </AttachmentActions>
-                    </Attachment>
-                  );
-                })}
-              </div>
-            )} */}
           </>
         )}
       </Empty>
       {otherFiles.length > 0 && (
         <div className="mx-auto flex w-full max-w-sm flex-col gap-2 py-2">
-          {otherFiles.map(({ id, file }) => {
+          {otherFiles.map(({ id, name, size }) => {
             return (
               <Attachment className="w-full" key={id}>
                 <AttachmentMedia variant="icon">
                   <FileIcon />
                 </AttachmentMedia>
                 <AttachmentContent>
-                  <AttachmentTitle>{file.name}</AttachmentTitle>
+                  <AttachmentTitle>{name}</AttachmentTitle>
                   <AttachmentDescription>
-                    {(file.size / 1024).toFixed(0)} KB
+                    {(size / 1024).toFixed(0)} KB
                   </AttachmentDescription>
                 </AttachmentContent>
                 <AttachmentActions>
                   <AttachmentAction
-                    aria-label={`Delete ${file.name}`}
+                    aria-label={`Delete ${name}`}
                     onClick={() => onRemove(id)}
                   >
                     <XIcon />

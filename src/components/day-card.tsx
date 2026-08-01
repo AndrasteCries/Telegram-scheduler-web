@@ -1,8 +1,9 @@
 import { Post } from "@/types/post";
-import { PostCard } from "./PostCard";
+import { PostCard } from "./post-card";
 import { mockSlotTemplates } from "@/lib/mock-data";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "./ui/separator";
+import { SlotPlaceholder } from "./slot-placeholder";
 
 type DayCardProps = {
   day: Date;
@@ -28,7 +29,7 @@ export function DayCard({ day, posts }: DayCardProps) {
             </p>
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="flex flex-col gap-3 ">
           {templates.map((template) => {
             const postSlots = posts.get(template.timeOfDay);
             return (
@@ -39,9 +40,7 @@ export function DayCard({ day, posts }: DayCardProps) {
                     <PostCard key={post.id} post={post} />
                   ))
                 ) : (
-                  <div className="flex h-10 w-full items-center justify-center rounded border border-dashed border-gray-700 text-gray-600 hover:border-gray-500 hover:text-gray-400">
-                    +
-                  </div>
+                  <SlotPlaceholder day={day} timeOfDay={template.timeOfDay} />
                 )}
               </div>
             );
@@ -50,16 +49,16 @@ export function DayCard({ day, posts }: DayCardProps) {
             <>
               <Separator className={"mb-2"} />
               <CardTitle className="mb-2">Unplanned posts</CardTitle>
+              {unslottedEntries?.map(([time, posts]) => (
+                <div key={time}>
+                  <p>{time}</p>
+                  {posts.map((post) => (
+                    <PostCard key={post.id} post={post} />
+                  ))}
+                </div>
+              ))}
             </>
           )}
-          {unslottedEntries?.map(([time, posts]) => (
-            <div key={time}>
-              <p>{time}</p>
-              {posts.map((post) => (
-                <PostCard key={post.id} post={post} />
-              ))}
-            </div>
-          ))}
         </CardContent>
       </Card>
     </div>

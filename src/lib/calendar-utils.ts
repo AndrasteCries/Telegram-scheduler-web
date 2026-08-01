@@ -18,7 +18,9 @@ export function getMockPosts(): Map<string, Map<string, Post[]>> {
   return groupPostsByDay(MockData.mockPosts);
 }
 
-export function groupPostsByDay(posts: Post[]): Map<string, Map<string, Post[]>> {
+export function groupPostsByDay(
+  posts: Post[],
+): Map<string, Map<string, Post[]>> {
   const result = new Map<string, Map<string, Post[]>>();
 
   for (const post of posts) {
@@ -85,4 +87,50 @@ export function isSameDay(a: Date, b: Date): boolean {
     a.getMonth() === b.getMonth() &&
     a.getDate() === b.getDate()
   );
+}
+
+export function groupPosts(posts: Post[]) {
+  const map = new Map<string, Map<string, Post[]>>();
+
+  for (const post of posts) {
+    const date = new Date(post.scheduledAtUtc);
+
+    const dayKey = getDayKey(date);
+
+    const timeKey = `${String(date.getHours()).padStart(2, "0")}:${String(
+      date.getMinutes(),
+    ).padStart(2, "0")}`;
+
+    if (!map.has(dayKey)) {
+      map.set(dayKey, new Map());
+    }
+
+    const dayMap = map.get(dayKey)!;
+
+    if (!dayMap.has(timeKey)) {
+      dayMap.set(timeKey, []);
+    }
+
+    dayMap.get(timeKey)!.push(post);
+  }
+
+  return map;
+}
+
+export function utcToLocalInput(utc: string): string {
+  if (!utc) return "";
+
+  const date = new Date(utc);
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+
+  return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
+
+export function localInputToUtc(date: Date): string {
+  return date.toISOString();
 }

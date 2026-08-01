@@ -1,6 +1,6 @@
 "use client";
 
-import { CalendarGrid } from "./CalendarGrid";
+import { CalendarGrid } from "./caldendar-grid";
 import { DashboardProvider } from "@/components/dashboard-provider";
 import { PostEditorPanel } from "./post-editor-panel";
 

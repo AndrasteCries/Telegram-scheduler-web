@@ -1,7 +1,9 @@
 import { Post } from "./post";
 
 export type DashboardContextType = {
-  selectedSlot: Post | null;
-  setSelectedSlot: React.Dispatch<React.SetStateAction<Post | null>>;
+  draft: Post;
+  setDraft: React.Dispatch<React.SetStateAction<Post>>;
+  posts: Post[];
+  setPosts: React.Dispatch<React.SetStateAction<Post[]>>;
 };
 

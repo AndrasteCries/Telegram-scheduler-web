@@ -1,6 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { GripVertical } from "lucide-react";
+
+import { useDashboard } from "@/hooks/use-dashboard";
+import { getImageSize } from "@/lib/utils";
+import { emptyDraft } from "@/types/post";
+
 import { AttachmentPanel } from "./attachment-panel";
 import {
   Card,
@@ -11,76 +16,148 @@ import {
 } from "./ui/card";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
-import { GripVertical } from "lucide-react";
-import { useDashboard } from "@/hooks/use-dashboard";
-import { AttachedFile } from "@/types/attached-file";
-import { getImageSize } from "@/lib/utils";
+import { DatePickerTime } from "./date-picker-time";
 
 export function PostEditor() {
-  const { selectedSlot, setSelectedSlot } = useDashboard();
-  const [attachedFiles, setAttachedFiles] = useState<AttachedFile[]>([]);
+  const { draft, setDraft, setPosts } = useDashboard();
+
+  const isEditing = draft.id !== 0;
 
   async function handleFilesAdded(newFiles: File[]) {
     const attached = await Promise.all(
       newFiles.map(async (file) => {
-        console.log("processing", file.name);
         const previewUrl = URL.createObjectURL(file);
 
-        let width = 0;
-        let height = 0;
-
         if (file.type.startsWith("image/")) {
-          const size = await getImageSize(previewUrl);
-          width = size.width;
-          height = size.height;
+          await getImageSize(previewUrl);
         }
 
         return {
           id: crypto.randomUUID(),
           file,
           previewUrl,
-          width,
-          height,
+          mimeType: file.type,
+          name: file.name,
+          size: file.size,
         };
       }),
     );
-    console.log("result:", newFiles);
-    setAttachedFiles((prev) => [...prev, ...attached]);
+
+    setDraft((prev) => ({
+      ...prev,
+      files: [...prev.files, ...attached],
+    }));
+  }
+
+  function cleanupFiles() {
+    draft.files.forEach((file) => {
+      if (file.file) {
+        URL.revokeObjectURL(file.previewUrl);
+      }
+    });
   }
 
   function handleRemove(id: string) {
-    setAttachedFiles((prev) => {
-      const file = prev.find((f) => f.id === id);
+    setDraft((prev) => {
+      const file = prev.files.find((f) => f.id === id);
 
-      if (file) {
+      if (file?.file) {
         URL.revokeObjectURL(file.previewUrl);
       }
 
-      return prev.filter((f) => f.id !== id);
+      return {
+        ...prev,
+        files: prev.files.filter((f) => f.id !== id),
+      };
     });
+  }
+
+  function handleSave() {
+    if (isEditing) {
+      setPosts((prev) =>
+        prev.map((post) => (post.id === draft.id ? draft : post)),
+      );
+    } else {
+      setPosts((prev) => [
+        ...prev,
+        {
+          ...draft,
+          id: Date.now(),
+        },
+      ]);
+    }
+
+    setDraft(structuredClone(emptyDraft));
+  }
+
+  function handleDelete() {
+    cleanupFiles();
+    if (isEditing) {
+      setPosts((prev) => prev.filter((post) => post.id !== draft.id));
+    }
+    setDraft(structuredClone(emptyDraft));
+  }
+
+  function handleCancel() {
+    cleanupFiles();
+    setDraft(structuredClone(emptyDraft));
   }
 
   return (
     <Card className="bg-zinc-900 border-zinc-700">
       <CardHeader className="relative">
         <div />
-        <CardTitle className=" text-center w-full">New post</CardTitle>
-        <GripVertical className="absolute right-5 top-1/2 size-5 -translate-y-1/2 cursor-grab text-muted-foreground" />
+        <CardTitle>{isEditing ? "Edit post" : "New post"}</CardTitle>
+        <GripVertical className="absolute right-5 top-1/2 -translate-y-1/2 size-5 cursor-grab" />
       </CardHeader>
+
       <CardContent>
         <div className="flex flex-col gap-6">
           <AttachmentPanel
-            files={attachedFiles}
+            files={draft.files}
             onFilesAdded={handleFilesAdded}
             onRemove={handleRemove}
           />
-          <Textarea placeholder="Type your message here." />
+
+          <Textarea
+            value={draft.text}
+            onChange={(e) =>
+              setDraft((prev) => ({
+                ...prev,
+                text: e.target.value,
+              }))
+            }
+          />
+          <DatePickerTime
+            value={draft.scheduledAtUtc}
+            onChange={(value) =>
+              setDraft((prev) => ({
+                ...prev,
+                scheduledAtUtc: value,
+              }))
+            }
+          />
         </div>
       </CardContent>
-      <CardFooter className="justify-center">
-        <Button disabled={selectedSlot === null} className="w-full">
-          Save
-        </Button>
+
+      <CardFooter className="justify-between">
+        <div>
+          {isEditing && (
+            <Button variant="destructive" onClick={handleDelete}>
+              Delete
+            </Button>
+          )}
+        </div>
+
+        <div className="flex gap-2">
+          {isEditing && (
+            <Button variant="outline" onClick={handleCancel}>
+              Cancel
+            </Button>
+          )}
+
+          <Button onClick={handleSave}>{isEditing ? "Save" : "Create"}</Button>
+        </div>
       </CardFooter>
     </Card>
   );

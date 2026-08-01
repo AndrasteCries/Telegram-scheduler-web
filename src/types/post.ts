@@ -7,5 +7,15 @@ export type Post = {
   scheduledAtUtc: string;
   hangfireJobId: string | null;
   isSent: boolean;
-  files: AttachedFile[] | null;
+  files: AttachedFile[];
+};
+
+export const emptyDraft: Post = {
+  id: 0,
+  chatId: 429976711,
+  text: "",
+  scheduledAtUtc: new Date().toISOString(),
+  hangfireJobId: null,
+  isSent: false,
+  files: [],
 };
