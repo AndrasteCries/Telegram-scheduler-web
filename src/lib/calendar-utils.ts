@@ -1,7 +1,16 @@
 import { Post } from "@/types/post";
-import * as MockData from "@/lib/mock-data";
+import { mockPosts } from "@/lib/mock-data";
 
-export async function getPosts(from: string, to: string): Promise<Post[]> {
+export const USE_MOCKS = process.env.NEXT_PUBLIC_USE_MOCKS === "true";
+
+export async function getPosts(
+  from: string,
+  to: string,
+): Promise<Post[]> {
+  if (USE_MOCKS) {
+    return mockPosts;
+  }
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/posts?from=${from}&to=${to}`,
     {
@@ -11,11 +20,9 @@ export async function getPosts(from: string, to: string): Promise<Post[]> {
     },
   );
 
-  return res.json();
-}
+  const posts: Post[] = await res.json();
 
-export function getMockPosts(): Map<string, Map<string, Post[]>> {
-  return groupPostsByDay(MockData.mockPosts);
+  return posts;
 }
 
 export function groupPostsByDay(
@@ -45,24 +52,36 @@ export function groupPostsByDay(
   return result;
 }
 
-export function getTwoWeeksFromMonday(): Date[] {
-  const today = new Date();
-  const monday = new Date(today);
+export function getDaysRange(from: Date, to: Date) {
+  const start = new Date(from);
+  start.setHours(0, 0, 0, 0);
 
-  const dayOfWeek = today.getDay();
-  const diff = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+  const startDay = start.getDay();
+  const startDiff = startDay === 0 ? -6 : 1 - startDay;
+  start.setDate(start.getDate() + startDiff);
 
-  monday.setDate(today.getDate() + diff);
+  const end = new Date(to);
+  end.setHours(23, 59, 59, 999);
+
+  const endDay = end.getDay();
+  const endDiff = endDay === 0 ? 0 : 7 - endDay;
+  end.setDate(end.getDate() + endDiff);
 
   const days: Date[] = [];
 
-  for (let i = 0; i < 14; i++) {
-    const date = new Date(monday);
-    date.setDate(monday.getDate() + i);
-    days.push(date);
+  for (
+    let date = new Date(start);
+    date <= end;
+    date.setDate(date.getDate() + 1)
+  ) {
+    days.push(new Date(date));
   }
 
-  return days;
+  return {
+    days,
+    from: start,
+    to: end,
+  };
 }
 
 export function getDayKey(date: Date): string {

@@ -2,8 +2,8 @@ import { Post } from "@/types/post";
 import { PostCard } from "./post-card";
 import { mockSlotTemplates } from "@/lib/mock-data";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "./ui/separator";
-import { SlotPlaceholder } from "./slot-placeholder";
+import { Separator } from "../ui/separator";
+import { SlotPlaceholder } from "@/components/postCalendar/slot-placeholder";
 
 type DayCardProps = {
   day: Date;

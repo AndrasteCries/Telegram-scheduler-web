@@ -8,6 +8,11 @@ export function localDateTimeToUtcIso(date: string, time: string): string {
   return new Date(year, month - 1, day, hours, minutes).toISOString();
 }
 
+export const loginData = [{
+  login: "admin",
+  password: "admin"
+}]
+
 export const mockSlotTemplates: SlotTemplate[] = [
   {
     id: 1,

@@ -1,8 +1,8 @@
 "use client";
 
-import { getTwoWeeksFromMonday, groupPosts, getDayKey } from "@/lib/calendar-utils";
+import { groupPosts, getDayKey, getDaysRange } from "@/lib/calendar-utils";
 import * as CalendarConstants from "@/constants/calendar";
-import { DayCard } from "./day-card";
+import { DayCard } from "./postCalendar/day-card";
 import { Post } from "@/types/post";
 import { CardHeader } from "@/components/ui/card";
 import { useDashboard } from "@/hooks/use-dashboard";
@@ -10,7 +10,12 @@ import { useDashboard } from "@/hooks/use-dashboard";
 export function CalendarGrid() {
   const { posts } = useDashboard();
   const calendarDays = CalendarConstants.WEEKDAY_LABELS;
-  const days = getTwoWeeksFromMonday();
+  const today = new Date();
+
+  const end = new Date(today);
+  end.setDate(end.getDate() + 13);
+
+  const { days } = getDaysRange(today, end);
   const calendarPosts = groupPosts(posts);
 
   return (

@@ -13,9 +13,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./ui/card";
-import { Textarea } from "./ui/textarea";
-import { Button } from "./ui/button";
+} from "../ui/card";
+import { Textarea } from "../ui/textarea";
+import { Button } from "../ui/button";
 import { DatePickerTime } from "./date-picker-time";
 
 export function PostEditor() {

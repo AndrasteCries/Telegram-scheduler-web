@@ -1,13 +1,13 @@
 "use client";
 
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import {
   Empty,
   EmptyHeader,
   EmptyTitle,
   EmptyDescription,
   EmptyContent,
-} from "./ui/empty";
+} from "../ui/empty";
 import {
   Attachment,
   AttachmentAction,
@@ -16,10 +16,10 @@ import {
   AttachmentDescription,
   AttachmentMedia,
   AttachmentTitle,
-} from "./ui/attachment";
+} from "../ui/attachment";
 import { FileIcon, XIcon } from "lucide-react";
 import { AttachedFile } from "@/types/attached-file";
-import { ImageGrid } from "./post-gallery";
+import { ImageGrid } from "../postCalendar/post-gallery";
 
 export function AttachmentPanel({
   files,

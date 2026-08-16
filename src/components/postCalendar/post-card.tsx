@@ -1,7 +1,7 @@
 "use client";
 
 import { Post } from "@/types/post";
-import { Card, CardContent } from "./ui/card";
+import { Card, CardContent } from "../ui/card";
 import { PostMiniImage } from "./post-mini-image";
 import { useDashboard } from "@/hooks/use-dashboard";
 import { PostFileMiniImage } from "./post-file-mini-image";
