@@ -1,6 +1,8 @@
 import type { Post } from "@/types/post";
 import type { SlotTemplate } from "@/types/slot-template";
 
+export const USE_MOCKS = process.env.NEXT_PUBLIC_USE_MOCKS === "true";
+
 export function localDateTimeToUtcIso(date: string, time: string): string {
   const [year, month, day] = date.split("-").map(Number);
   const [hours, minutes] = time.split(":").map(Number);
@@ -8,10 +10,19 @@ export function localDateTimeToUtcIso(date: string, time: string): string {
   return new Date(year, month - 1, day, hours, minutes).toISOString();
 }
 
-export const loginData = [{
-  login: "admin",
-  password: "admin"
-}]
+export function getChannels() {
+  if (USE_MOCKS) {
+    return mockChannels;
+  }
+  return [];
+}
+
+export function getMockTemplates(){
+  if (USE_MOCKS) {
+    return mockSlotTemplates;
+  }
+  return [];
+}
 
 export const mockSlotTemplates: SlotTemplate[] = [
   {
@@ -91,7 +102,7 @@ export const mockPosts: Post[] = [
     id: 1,
     chatId: 429976711,
     text: "Good morning! Here's today's first update.",
-    scheduledAtUtc: localDateTimeToUtcIso("2026-07-23", "09:00"),
+    scheduledAtUtc: localDateTimeToUtcIso("2026-08-18", "09:00"),
     hangfireJobId: null,
     isSent: false,
     files: [mockFiles[0], mockFiles[6]],
@@ -100,7 +111,7 @@ export const mockPosts: Post[] = [
     id: 67,
     chatId: 429976711,
     text: "Second good morning! Here's today's first update.",
-    scheduledAtUtc: localDateTimeToUtcIso("2026-07-23", "09:00"),
+    scheduledAtUtc: localDateTimeToUtcIso("2026-08-18", "09:00"),
     hangfireJobId: null,
     isSent: false,
     files: [mockFiles[2]],
@@ -109,7 +120,7 @@ export const mockPosts: Post[] = [
     id: 20,
     chatId: 429976711,
     text: "Good morning! Here's today's first update.",
-    scheduledAtUtc: localDateTimeToUtcIso("2026-07-23", "20:00"),
+    scheduledAtUtc: localDateTimeToUtcIso("2026-08-18", "20:00"),
     hangfireJobId: null,
     isSent: false,
     files: [
@@ -125,7 +136,7 @@ export const mockPosts: Post[] = [
     id: 2,
     chatId: 429976711,
     text: "Evening news roundup is now available.",
-    scheduledAtUtc: localDateTimeToUtcIso("2026-07-25", "20:00"),
+    scheduledAtUtc: localDateTimeToUtcIso("2026-08-20", "20:00"),
     hangfireJobId: null,
     isSent: false,
     files: [mockFiles[6]],
@@ -134,7 +145,7 @@ export const mockPosts: Post[] = [
     id: 3,
     chatId: 429976711,
     text: "Don't forget to join today's livestream.",
-    scheduledAtUtc: localDateTimeToUtcIso("2026-07-27", "09:00"),
+    scheduledAtUtc: localDateTimeToUtcIso("2026-08-22", "09:00"),
     hangfireJobId: null,
     isSent: false,
     files: [mockFiles[1], mockFiles[2]],
@@ -143,7 +154,7 @@ export const mockPosts: Post[] = [
     id: 4,
     chatId: 429976711,
     text: "Unexpected maintenance announcement.",
-    scheduledAtUtc: localDateTimeToUtcIso("2026-07-29", "20:00"),
+    scheduledAtUtc: localDateTimeToUtcIso("2026-08-25", "20:00"),
     hangfireJobId: null,
     isSent: false,
     files: [mockFiles[3], mockFiles[6]],
@@ -152,7 +163,7 @@ export const mockPosts: Post[] = [
     id: 5,
     chatId: 429976711,
     text: "Special event starts in one hour!",
-    scheduledAtUtc: localDateTimeToUtcIso("2026-07-31", "09:00"),
+    scheduledAtUtc: localDateTimeToUtcIso("2026-08-28", "09:00"),
     hangfireJobId: null,
     isSent: false,
     files: [mockFiles[4]],
@@ -161,7 +172,7 @@ export const mockPosts: Post[] = [
     id: 6,
     chatId: 429976711,
     text: "Weekly digest is ready to read.",
-    scheduledAtUtc: localDateTimeToUtcIso("2026-08-02", "20:00"),
+    scheduledAtUtc: localDateTimeToUtcIso("2026-08-30", "20:00"),
     hangfireJobId: null,
     isSent: false,
     files: [mockFiles[5]],
@@ -170,7 +181,7 @@ export const mockPosts: Post[] = [
     id: 7,
     chatId: 429976711,
     text: "New feature has just been released.",
-    scheduledAtUtc: localDateTimeToUtcIso("2026-08-04", "09:00"),
+    scheduledAtUtc: localDateTimeToUtcIso("2026-09-01", "09:00"),
     hangfireJobId: null,
     isSent: false,
     files: [mockFiles[0], mockFiles[2], mockFiles[4], mockFiles[6]],
@@ -179,7 +190,7 @@ export const mockPosts: Post[] = [
     id: 8,
     chatId: 429976711,
     text: "Reminder: check out the latest article.",
-    scheduledAtUtc: localDateTimeToUtcIso("2026-08-06", "20:00"),
+    scheduledAtUtc: localDateTimeToUtcIso("2026-09-03", "20:00"),
     hangfireJobId: null,
     isSent: false,
     files: [],
@@ -188,7 +199,7 @@ export const mockPosts: Post[] = [
     id: 9,
     chatId: 429976711,
     text: "Community Q&A starts in 30 minutes.",
-    scheduledAtUtc: localDateTimeToUtcIso("2026-08-09", "09:00"),
+    scheduledAtUtc: localDateTimeToUtcIso("2026-09-06", "09:00"),
     hangfireJobId: null,
     isSent: false,
     files: [mockFiles[1], mockFiles[6]],
@@ -197,7 +208,7 @@ export const mockPosts: Post[] = [
     id: 10,
     chatId: 429976711,
     text: "Thank you for staying with us! More updates coming soon.",
-    scheduledAtUtc: localDateTimeToUtcIso("2026-08-12", "20:00"),
+    scheduledAtUtc: localDateTimeToUtcIso("2026-09-08", "20:00"),
     hangfireJobId: null,
     isSent: false,
     files: [
@@ -207,5 +218,20 @@ export const mockPosts: Post[] = [
       mockFiles[3],
       mockFiles[6],
     ],
+  },
+];
+
+export const mockChannels = [
+  {
+    name: "Channel 1",
+    logo: "✅",
+  },
+  {
+    name: "Channel 2",
+    logo: "🎬✅",
+  },
+  {
+    name: "Channel 3",
+    logo: "💰",
   },
 ];

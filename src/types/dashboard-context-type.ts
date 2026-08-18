@@ -1,4 +1,5 @@
 import { Post } from "./post";
+import { SlotTemplate } from "./slot-template";
 
 export type DashboardContextType = {
   draft: Post;
@@ -6,4 +7,9 @@ export type DashboardContextType = {
   posts: Post[];
   setPosts: React.Dispatch<React.SetStateAction<Post[]>>;
 };
+
+export type ChannelContextType = {
+  templates: SlotTemplate[];
+  setTemplates: React.Dispatch<React.SetStateAction<SlotTemplate[]>>;
+}
 

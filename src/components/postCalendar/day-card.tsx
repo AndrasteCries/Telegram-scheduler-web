@@ -1,9 +1,9 @@
 import { Post } from "@/types/post";
 import { PostCard } from "./post-card";
-import { mockSlotTemplates } from "@/lib/mock-data";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "../ui/separator";
 import { SlotPlaceholder } from "@/components/postCalendar/slot-placeholder";
+import { useChannel } from "@/hooks/use-channel";
 
 type DayCardProps = {
   day: Date;
@@ -11,7 +11,7 @@ type DayCardProps = {
 };
 
 export function DayCard({ day, posts }: DayCardProps) {
-  const templates = mockSlotTemplates;
+  const { templates } = useChannel();
 
   const slotTimes = new Set(templates.map((t) => t.timeOfDay));
 

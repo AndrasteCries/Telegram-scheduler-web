@@ -104,7 +104,7 @@ export function PostEditor() {
   }
 
   return (
-    <Card className="bg-zinc-900 border-zinc-700">
+    <Card className="border-zinc-700 bg-zinc-900">
       <CardHeader className="relative">
         <div />
         <CardTitle>{isEditing ? "Edit post" : "New post"}</CardTitle>
