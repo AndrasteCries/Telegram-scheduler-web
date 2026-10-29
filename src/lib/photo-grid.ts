@@ -1,4 +1,4 @@
-import { Orientation } from "@/types/photo-types";
+import { Orientation } from "@/entities/photo-types";
 
 export type Template = { columns: string; rows: string[] };
 

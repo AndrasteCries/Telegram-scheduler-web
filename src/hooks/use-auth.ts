@@ -1,41 +1,43 @@
 "use client";
 
-import { useState } from "react";
-import { login as mockLogin } from "@/lib/api/auth";
-import { saveAuth, clearAuth, getAuth } from "@/lib/auth-storage";
+import { useCallback, useEffect, useState } from "react";
+import { login as Login, register as Register, getUser as GetUser, logout as LogoutApi } from "@/lib/api/auth";
+import type { LoginResponse, RegisterResponse } from "@/entities/auth";
+import { User } from "@/entities/user/model/types";
 
 export function useAuth() {
-  const [isLoading, setIsLoading] = useState(false);
+    const [user, setUser] = useState<User | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
-  async function login(username: string, password: string) {
-    setIsLoading(true);
+    useEffect(() => {
+        GetUser()
+            .then(setUser)
+            .catch(() => setUser(null))
+            .finally(() => setIsLoading(false));
+    }, []);
 
-    try {
-      const result = await mockLogin({
-        login: username,
-        password,
-      });
+    const login = useCallback(async (loginName: string, password: string): Promise<LoginResponse> => {
+        const response = await Login({ login: loginName, password });
+        const freshUser = await GetUser();
+        setUser(freshUser);
+        return response;
+    }, []);
 
-      saveAuth(result);
+    const register = useCallback(async (username: string, password: string): Promise<RegisterResponse> => {
+        return await Register({ login: username, password });
+    }, []);
 
-      return result;
-    } finally {
-      setIsLoading(false);
-    }
-  }
+    const logout = useCallback(async () => {
+        await LogoutApi();
+        setUser(null);
+    }, []);
 
-  function logout() {
-    clearAuth();
-  }
-
-  function getCurrentUser() {
-    return getAuth();
-  }
-
-  return {
-    login,
-    logout,
-    getCurrentUser,
-    isLoading,
-  };
+    return {
+        user,
+        isAuthenticated: !!user,
+        isLoading,
+        login,
+        register,
+        logout,
+    };
 }

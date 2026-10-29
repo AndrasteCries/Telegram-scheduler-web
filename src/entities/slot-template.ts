@@ -1,6 +1,7 @@
 export type SlotTemplate = {
-  id: number;
+  id: number | null;
+  channelId: number;
   timeOfDay: string;
-  label: string;    
+  label: string;
   sortOrder: number;
 };

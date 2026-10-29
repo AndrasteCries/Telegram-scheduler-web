@@ -1,7 +1,7 @@
 import { createColumnHelper } from "@tanstack/react-table";
 
 import { type DataTableFeatures } from "./data-table-features";
-import { SlotTemplate } from "@/types/slot-template";
+import { SlotTemplate } from "@/entities/slot-template";
 import { MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";

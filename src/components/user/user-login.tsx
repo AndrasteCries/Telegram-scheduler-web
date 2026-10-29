@@ -5,14 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { useAuth } from "@/hooks/use-auth";
+import { useAuthContext } from "@/hooks/use-auth-context";
 
 export function UserLogin() {
-  const { login, isLoading } = useAuth();
+  const { login } = useAuthContext();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
   const router = useRouter();
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -53,8 +52,8 @@ export function UserLogin() {
         </Field>
 
         <Field orientation="horizontal">
-          <Button type="submit" disabled={isLoading}>
-            {isLoading ? "Logging in..." : "Login"}
+          <Button type="submit">
+            Login
           </Button>
         </Field>
       </FieldGroup>

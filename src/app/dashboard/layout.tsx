@@ -1,12 +1,11 @@
 "use client";
 
-import { SidebarProvider } from "@/components/ui/sidebar";
-import { AuthGuard } from "@/components/user/auth-guard";
+import { AuthProvider } from "@/components/user/auth-provider";
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <AuthGuard>{children}</AuthGuard>;
+  return <AuthProvider>{children}</AuthProvider>;
 }

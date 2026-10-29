@@ -1,4 +1,4 @@
-import { Orientation } from "@/types/photo-types";
+import { Orientation } from "@/entities/photo-types";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
